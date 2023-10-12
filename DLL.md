@@ -184,3 +184,90 @@ int main()
 
 
 ```
+```
+#pragma once
+
+
+struct Node
+{
+	int Paper;
+	Node* pPreveNode;
+	Node* pNextNode;
+	Node()
+		: Paper()
+		, pNextNode(nullptr)
+		, pPreveNode(nullptr)
+	{}
+};
+
+class List
+{
+private:
+	int Count;
+	Node* pHead;
+	Node* pTail;
+	int Count;
+public:
+	List();
+	~List();
+	void PushBack(int _Data);
+	void Remove(Node* _RemoveNode);
+	int ListLength();
+};
+List::List()
+	:pHead(nullptr)
+	, pTail(nullptr)
+	, Count(0)
+{}
+List::~List()
+{
+	Node* pDeleteNode = pHead;
+	while (pDeleteNode)
+	{
+		Node* pNext = pDeleteNode->pNextNode;
+		delete(pDeleteNode);
+		pDeleteNode = pNext;
+	}
+}
+void List :: PushBack(int _Data) // 노드를 만들어서 
+{
+	Node* pNewNode = new Node; 
+	if (pHead == nullptr) //// 노드가 하나인 경우
+	{
+		pHead = pNewNode;
+		pTail = pNewNode;
+	}
+	else // 데이터가 하나 이상일경우 , 현재 가장 마지막 데이터(Tail)을 저장하고 있는노드와 새로 생성된 노드가 서로 가리키게한다.
+	{
+		// 리스트가 마지막 노드의 주소값을 새로 입력된 노드로 갱신한다.
+		pTail->pNextNode = pNewNode;
+		pNewNode->pPreveNode = pTail;
+		pTail = pNewNode;
+	}
+	++Count; //데이터 개수 증가
+}
+void List :: Remove(Node* _RemoveNode)
+{
+	if(pHead == nullptr)
+	if (pHead == _RemoveNode)
+	{
+		pHead = _RemoveNode ->pNextNode;
+		pHead->pPreveNode = nullptr;
+		if (pHead == nullptr) pTail = nullptr;
+	}
+	else if (pTail == _RemoveNode)
+	{
+		pTail = pTail->pPreveNode;
+		pTail->pNextNode = nullptr;
+	}
+	else
+	{
+		_RemoveNode->pPreveNode->pNextNode = _RemoveNode->pNextNode;
+		_RemoveNode->pNextNode->pPreveNode = _RemoveNode->pPreveNode;
+	}
+}
+int List::ListLength() // 풍선 갯수
+{
+	return Count;
+}ㅍ
+```
